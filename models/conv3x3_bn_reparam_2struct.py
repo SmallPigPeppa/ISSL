@@ -24,7 +24,7 @@ class Conv3x3_BN(nn.Module):
         self.branch1x1_bn = nn.Sequential(OrderedDict([('conv', conv1x1(in_planes, out_planes, stride=stride)),
                                                        ('bn', nn.BatchNorm2d(out_planes))]))
         self.use_branch = False
-        # self.zero_branch()
+        self.zero_branch()
 
     def forward(self, x):
         z1 = self.conv3x3_bn(x)
@@ -35,10 +35,12 @@ class Conv3x3_BN(nn.Module):
             return z1
 
     def fix_conv(self):
-        self.conv3x3_bn.eval()
+        self.conv3x3_bn.conv.weight.requires_grad=False
+        self.conv3x3_bn.conv.bias.requires_grad=False
 
     def fix_branch(self):
-        self.branch1x1_bn.eval()
+        self.branch1x1_bn.conv.weight.requires_grad=False
+        self.branch1x1_bn.conv.bias.requires_grad=False
 
     def set_branch(self, use_branch=True):
         self.use_branch = use_branch
@@ -48,11 +50,7 @@ class Conv3x3_BN(nn.Module):
             kernel, bias = self.get_equivalent_kernel_bias()
             self.conv3x3_bn.conv.weight.data = kernel
             self.conv3x3_bn.conv.bias.data = bias
-            # init.ones_(self.conv3x3_bn.bn.weight)
-            # init.zeros_(self.conv3x3_bn.bn.bias)
-            # init.ones_(self.conv3x3_bn.bn.running_var)
-            # init.zeros_(self.conv3x3_bn.bn.running_mean)
-            self.conv3x3_bn.bn=nn.Identity()
+            self.conv3x3_bn.bn = nn.Identity()
             self.zero_branch()
 
     def get_equivalent_kernel_bias(self):
@@ -66,14 +64,17 @@ class Conv3x3_BN(nn.Module):
     def fuse_convbn(self, branch):
         kernel = branch.conv.weight
         bias = branch.conv.bias
-        running_mean = branch.bn.running_mean
-        running_var = branch.bn.running_var
-        gamma = branch.bn.weight
-        beta = branch.bn.bias
-        eps = branch.bn.eps
-        std = (running_var + eps).sqrt()
-        t = (gamma / std).reshape(-1, 1, 1, 1)
-        return kernel * t, bias * gamma / std + beta - running_mean * gamma / std
+        if isinstance(branch.bn, nn.BatchNorm2d):
+            running_mean = branch.bn.running_mean
+            running_var = branch.bn.running_var
+            gamma = branch.bn.weight
+            beta = branch.bn.bias
+            eps = branch.bn.eps
+            std = (running_var + eps).sqrt()
+            t = (gamma / std).reshape(-1, 1, 1, 1)
+            return kernel * t, bias * gamma / std + beta - running_mean * gamma / std
+        elif isinstance(branch.bn, nn.Identity):
+            return kernel, bias
 
     def zero_branch(self):
         init.zeros_(self.branch1x1_bn.conv.weight)
@@ -87,14 +88,24 @@ class Conv3x3_BN(nn.Module):
 if __name__ == '__main__':
     x = torch.rand([4, 3, 32, 32])
     m = Conv3x3_BN(in_planes=3, out_planes=6)
-    m.use_branch = True
-    m.fix_conv()
-    m.fix_branch()
+    m.use_branch = False
+    m.conv3x3_bn.bn.eval()
+    # m.fix_conv()
+    # m.fix_branch()
     # m.zero_branch()
     # m.eval()
     y = m(x)
     print(y[0][0][0])
     m.re_param()
+    # m.fix_conv()
+    # m.eval()
 
     y2 = m(x)
     print(y2[0][0][0])
+
+    m.re_param()
+    # m.fix_conv()
+    # m.eval()
+
+    y3 = m(x)
+    print(y3[0][0][0])

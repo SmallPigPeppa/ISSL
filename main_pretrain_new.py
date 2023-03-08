@@ -180,10 +180,14 @@ def main():
         model.encoder.set_branchs(False)
 
     if args.fix_conv:
-        model.fix_conv=True
+        model.encoder.fix_convs()
     else:
-        model.fix_conv=False
+        pass
 
+    if args.task_idx == 0:
+        model.not_first_task=False
+    else:
+        model.not_first_task=True
 
 
 

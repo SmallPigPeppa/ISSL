@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 # from torchvision.models.utils import load_state_dict_from_url
 from torch.hub import load_state_dict_from_url
-from models.conv1x1_bn_reparam import Conv1x1_BN
-from models.conv3x3_bn_reparam import Conv3x3_BN
+from models.conv1x1_bn_reparam_2struct import Conv1x1_BN
+from models.conv3x3_bn_reparam_2struct import Conv3x3_BN
 
 
 
@@ -171,7 +171,7 @@ class ResNet(nn.Module):
                 elif isinstance(m, BasicBlock):
                     nn.init.constant_(m.conv2_bn2.bn.weight, 0)
 
-        # self.zero_branchs()
+        self.zero_branchs()
 
     def _make_layer(self, block, planes, blocks, stride=1, dilate=False):
         norm_layer = self._norm_layer
@@ -242,13 +242,7 @@ class ResNet(nn.Module):
             if hasattr(module, 'set_branch'):
                 module.set_branch(use_branch)
 
-    def replace_bn_with_identity(self):
-        modules = list(self.named_modules())
-        for name, child in modules:
-            if ('conv1x1_bn' in name or 'conv3x3_bn' in name) and  isinstance(child, torch.nn.BatchNorm2d):
-                setattr(self, name, torch.nn.Identity())
-            if ('conv1x1_bn' in name or 'conv3x3_bn' in name) and  isinstance(child, torch.nn.Conv2d):
-                pass
+
 
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs):
@@ -278,10 +272,10 @@ def resnet18(pretrained=False, progress=True, **kwargs):
 if __name__=='__main__':
     x = torch.rand([4, 3, 32, 32])
     m = resnet18()
+    m.eval()
     m.set_branchs(use_branch=True)
     # m.fix_convs()
     # m.fix_branchs()
-    m.replace_bn_with_identity()
     # m.zero_branch()
     # m.eval()
     y = m(x)
@@ -290,3 +284,7 @@ if __name__=='__main__':
     m.re_params()
     y2 = m(x)
     print(y2)
+
+    m.re_params()
+    y3 = m(x)
+    print(y3)
