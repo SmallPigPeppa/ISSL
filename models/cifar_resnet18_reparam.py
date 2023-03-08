@@ -21,8 +21,8 @@ model_urls = {
     'wide_resnet101_2': 'https://download.pytorch.org/models/wide_resnet101_2-32ee1156.pth',
 }
 
-from conv1x1_reparam import Conv1x1_Reparam
-from conv3x3_reparam import Conv3x3_Reparam
+from models.conv1x1_reparam import Conv1x1_Reparam
+from models.conv3x3_reparam import Conv3x3_Reparam
 
 def conv3x3(in_planes, out_planes, stride=1, groups=1, dilation=1):
     """3x3 convolution with padding"""
