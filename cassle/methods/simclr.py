@@ -191,5 +191,3 @@ class SimCLR(BaseModel):
                 for bn_name, bn in child.named_children():
                     if isinstance(bn, torch.nn.BatchNorm2d):
                         setattr(child, bn_name, torch.nn.Identity())
-            else:
-                child.replace_bn_with_identity()
