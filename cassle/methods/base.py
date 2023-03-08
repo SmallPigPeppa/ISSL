@@ -159,7 +159,7 @@ class BaseModel(pl.LightningModule):
 
         assert encoder in ["resnet18", "resnet50","resnet18_cifar", "resnet50_cifar"]
 
-        from models.cifar_resnet18 import resnet18 as resnet18_cifar
+        from models.cifar_resnet18_reparam import resnet18 as resnet18_cifar
 
         self.base_model = {"resnet18_cifar": resnet18_cifar, }[encoder]
 
