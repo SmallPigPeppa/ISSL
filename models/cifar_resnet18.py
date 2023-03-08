@@ -242,6 +242,11 @@ class ResNet(nn.Module):
             if hasattr(module, 'set_branch'):
                 module.set_branch(use_branch)
 
+    def replace_bn_with_identity(self):
+        for name, child in self.named_modules():
+            if isinstance(child, torch.nn.BatchNorm2d):
+                setattr(self, name, torch.nn.Identity())
+
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs):
     model = ResNet(block, layers, **kwargs)
@@ -271,9 +276,9 @@ if __name__=='__main__':
     x = torch.rand([4, 3, 32, 32])
     m = resnet18()
     m.set_branchs(use_branch=True)
-    m.fix_convs()
-    m.fix_branchs()
-
+    # m.fix_convs()
+    # m.fix_branchs()
+    m.replace_bn_with_identity()
     # m.zero_branch()
     # m.eval()
     y = m(x)
