@@ -180,9 +180,9 @@ def main():
         model.encoder.set_branchs(False)
 
     if args.fix_conv:
-        model.fix_conv=True
+        model.encoder.fix_convs()
     else:
-        model.fix_conv=False
+        pass
 
 
 
@@ -260,9 +260,6 @@ def main():
     if args.dali:
         trainer.fit(model, val_dataloaders=val_loader)
     else:
-        # print('*************************************debug********************************')
-        # print(next(iter(train_dataset)))
-        # print('*************************************debug********************************')
         trainer.fit(model, train_loaders, val_loader)
 
 

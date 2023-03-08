@@ -15,7 +15,7 @@ def conv1x1(in_planes, out_planes, stride=1):
 
 
 class Conv1x1_Reparam(nn.Module):
-    def __init__(self, in_planes, out_planes, stride=1, groups=1, dilation=1):
+    def __init__(self, in_planes, out_planes, stride=1):
         super(Conv1x1_Reparam, self).__init__()
         self.conv1x1 = conv1x1(in_planes, out_planes, stride=stride)
         self.branch1x1 = conv1x1(in_planes, out_planes, stride=stride)
@@ -31,10 +31,12 @@ class Conv1x1_Reparam(nn.Module):
             return z1
 
     def fix_conv(self):
-        pass
+        self.conv1x1.weight.requires_grad = False
 
     def fix_branch(self):
-        pass
+        self.branch1x1.weight.requires_grad =False
+
+
 
     def set_branch(self, use_branch=True):
         self.use_branch = use_branch
@@ -56,8 +58,8 @@ if __name__ == '__main__':
     x = torch.rand([4, 3, 32, 32])
     m = Conv1x1_Reparam(in_planes=3, out_planes=6)
     m.use_branch = True
-    # m.fix_conv()
-    # m.fix_branch()
+    m.fix_conv()
+    m.fix_branch()
     # m.zero_branch()
     # m.eval()
     y = m(x)

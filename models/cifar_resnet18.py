@@ -242,13 +242,7 @@ class ResNet(nn.Module):
             if hasattr(module, 'set_branch'):
                 module.set_branch(use_branch)
 
-    def replace_bn_with_identity(self):
-        modules = list(self.named_modules())
-        for name, child in modules:
-            if ('conv1x1_bn' in name or 'conv3x3_bn' in name) and  isinstance(child, torch.nn.BatchNorm2d):
-                setattr(self, name, torch.nn.Identity())
-            if ('conv1x1_bn' in name or 'conv3x3_bn' in name) and  isinstance(child, torch.nn.Conv2d):
-                pass
+
 
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs):

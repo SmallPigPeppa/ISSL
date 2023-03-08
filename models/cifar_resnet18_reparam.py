@@ -1,11 +1,7 @@
-# import os
-# os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
-
 import torch
 import torch.nn as nn
 # from torchvision.models.utils import load_state_dict_from_url
 from torch.hub import load_state_dict_from_url
-# from .conv_modified import Conv3x3_mofied
 
 
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
@@ -25,18 +21,19 @@ model_urls = {
     'wide_resnet101_2': 'https://download.pytorch.org/models/wide_resnet101_2-32ee1156.pth',
 }
 
+from conv1x1_reparam import Conv1x1_Reparam
+from conv3x3_reparam import Conv3x3_Reparam
 
 def conv3x3(in_planes, out_planes, stride=1, groups=1, dilation=1):
     """3x3 convolution with padding"""
-    return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
-                     padding=dilation, groups=groups, bias=False, dilation=dilation)
-    # return Conv3x3_mofied(in_planes, out_planes, stride=stride, groups=groups, dilation=dilation)
+    return Conv3x3_Reparam(in_planes, out_planes, stride, groups, dilation)
+
 
 
 
 def conv1x1(in_planes, out_planes, stride=1):
     """1x1 convolution"""
-    return nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=stride, bias=False)
+    return Conv1x1_Reparam(in_planes, out_planes, stride)
 
 
 class BasicBlock(nn.Module):
@@ -149,11 +146,19 @@ class ResNet(nn.Module):
                              "or a 3-element tuple, got {}".format(replace_stride_with_dilation))
         self.groups = groups
         self.base_width = width_per_group
-        self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3,
-                               bias=False)
+
+        # self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3,
+        #                        bias=False)
+        # self.bn1 = norm_layer(self.inplanes)
+        # self.relu = nn.ReLU(inplace=True)
+        # self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+
+        self.conv1 = conv3x3(in_planes=3,out_planes=64,stride=1,dilation=2)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
-        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+        self.maxpool = nn.Identity()
+
+
         self.layer1 = self._make_layer(block, 64, layers[0])
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2,
                                        dilate=replace_stride_with_dilation[0])
@@ -180,6 +185,7 @@ class ResNet(nn.Module):
                     nn.init.constant_(m.bn3.weight, 0)
                 elif isinstance(m, BasicBlock):
                     nn.init.constant_(m.bn2.weight, 0)
+        self.zero_branchs()
 
     def _make_layer(self, block, planes, blocks, stride=1, dilate=False):
         norm_layer = self._norm_layer
@@ -226,23 +232,31 @@ class ResNet(nn.Module):
     def forward(self, x):
         return self._forward_impl(x)
 
-    def set_expansions(self, use_expansion=True):
-        for module in self.modules():
-            if hasattr(module, 'set_expansion'):
-                # print(module)
-                module.set_expansion(use_expansion=use_expansion)
-
     def re_params(self):
         for module in self.modules():
             if hasattr(module, 're_param'):
-                # print(module)
                 module.re_param()
 
-    def clean_expansions(self):
+    def zero_branchs(self):
         for module in self.modules():
-            if hasattr(module, 'clean_expansion'):
-                # print(module)
-                module.clean_expansion()
+            if hasattr(module, 'zero_branch'):
+                module.zero_branch()
+
+    def fix_convs(self):
+        for module in self.modules():
+            if hasattr(module, 'fix_conv'):
+                module.fix_conv()
+
+    def fix_branchs(self):
+        for module in self.modules():
+            if hasattr(module, 'fix_branch'):
+                module.fix_branch()
+
+    def set_branchs(self,use_branch=True):
+        for module in self.modules():
+            if hasattr(module, 'set_branch'):
+                module.set_branch(use_branch)
+
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs):
     model = ResNet(block, layers, **kwargs)
@@ -377,74 +391,16 @@ def wide_resnet101_2(pretrained=False, progress=True, **kwargs):
                    pretrained, progress, **kwargs)
 
 if __name__=='__main__':
-    resnet_m=resnet18()
-    print('a')
-    # # resnet_m.zero_expansions()
-    # # resnet_m.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
-    # # print(resnet_m.layer1[0].conv1.expansion_1x1.weight)
-    # resnet_m.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
-    # # resnet_m.zero_expansions()
-    # resnet_m.maxpool = nn.Identity()
-    # # resnet_m.active_expansion()
-    # # print(resnet_m.layer1[0].conv1.expansion_1x1.weight)
-    # # resnet_m.zero_expansions()
-    # # print(resnet_m.layer1[0])
-    #
-    # input=torch.ones([8,3,32,32])
-    # resnet_m.active_expansion()
-    # output=resnet_m(input)
-    # print(output)
-    # resnet_m.reparameterize()
-    # # print(resnet_m.layer1[0].conv1.expansion_1x1.weight)
-    # # resnet_m.active_expansion()
-    # output=resnet_m(input)
-    # print(output)
-    # # resnet_m.reparameterize()
-    # # resnet_m.active_expansion()
-    # resnet_m.active_expansion(use_expansion=False)
-    # output=resnet_m(input)
-    # print(output)
-    # resnet_m.active_expansion(use_expansion=True)
-    # output=resnet_m(input)
-    # print(output)
-    #
-    # # input2=torch.ones([8,64,32,32])
-    # # resnet_m.layer1[0].conv1.expansion_1x1.weight.data.zero_()
-    # # output=resnet_m.layer1[0].conv1.expansion_1x1(input2)
-    # # print(resnet_m.layer1)
-    # # print(output)
-    # # print(resnet_m.layer1[0].conv1.expansion_1x1)
-    #
-    # # print(resnet_m.layer1[0].conv1.expansion_1x1.weight)
-    #
-    #
-    #
-    # # resnet_m=resnet18()
-    # # resnet_m.maxpool = nn.Identity()
-    # #
-    # # input=torch.ones([8,3,32,32])
-    # # output=resnet_m(input)
-    # # print(output)
-    # # resnet_m.reparameterize()
-    # # output=resnet_m(input)
-    # # print(output)
-    # # resnet_m.active_expansion()
-    # # output=resnet_m(input)
-    # # print(output)
+    x = torch.rand([4, 3, 32, 32])
+    m = resnet18()
+    m.set_branchs(use_branch=False)
+    # m.fix_convs()
+    # m.fix_branchs()
+    # m.zero_branch()
+    # m.eval()
+    y = m(x)
+    print(y)
 
-    resnet_m=resnet18()
-    resnet_m.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
-    resnet_m.maxpool = nn.Identity()
-    input=torch.ones([8,3,32,32])
-    # 打开 expansion
-    resnet_m.set_expansions()
-    output=resnet_m(input)
-    print(output)
-    # 重参数化
-    resnet_m.re_params()
-    output=resnet_m(input)
-    print(output)
-    # 关闭expansion
-    resnet_m.set_expansions(use_expansion=False)
-    output=resnet_m(input)
-    print(output)
+    m.re_params()
+    y2 = m(x)
+    print(y2)
