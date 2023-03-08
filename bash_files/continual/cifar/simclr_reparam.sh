@@ -1,4 +1,4 @@
-python3 main_continual.py \
+python3 main_continual_new.py \
     --dataset cifar100 \
     --encoder resnet18_cifar \
     --data_dir $DATA_DIR \
