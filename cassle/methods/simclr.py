@@ -171,7 +171,7 @@ class SimCLR(BaseModel):
         return out
 
     def on_train_start(self) -> None:
-        if self.fix_convs:
+        if self.fix_conv:
             self.encoder.fix_convs()
     def on_train_end(self) -> None:
         self.encoder.re_params()
