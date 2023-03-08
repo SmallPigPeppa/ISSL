@@ -1,10 +1,10 @@
 python3 main_continual.py \
     --dataset cifar100 \
-    --encoder resnet18 \
+    --encoder resnet18_cifar \
     --data_dir $DATA_DIR \
     --split_strategy class \
-    --task_idx 1 \
-    --max_epochs 500 \
+    --task_idx 0 \
+    --max_epochs 10 \
     --num_tasks 5 \
     --gpus 0 \
     --precision 16 \
@@ -24,8 +24,8 @@ python3 main_continual.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name simclr-cifar100 \
-    --project ISSL-v1.0 \
+    --name reparam-v1.0 \
+    --project SSIL \
     --entity pigpeppa \
     --wandb \
     --save_checkpoint \
@@ -33,6 +33,5 @@ python3 main_continual.py \
     --temperature 0.2 \
     --proj_hidden_dim 2048 \
     --output_dim 256 \
-    --distiller contrastive \
     --disable_knn_eval \
-    --pretrained_model $PRETRAINED_PATH
+

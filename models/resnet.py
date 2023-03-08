@@ -1,8 +1,12 @@
+# import os
+# os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+
 import torch
 import torch.nn as nn
 # from torchvision.models.utils import load_state_dict_from_url
 from torch.hub import load_state_dict_from_url
-from .conv_modified import Conv3x3_mofied
+# from .conv_modified import Conv3x3_mofied
+
 
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152', 'resnext50_32x4d', 'resnext101_32x8d',
@@ -26,6 +30,7 @@ def conv3x3(in_planes, out_planes, stride=1, groups=1, dilation=1):
     """3x3 convolution with padding"""
     return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
                      padding=dilation, groups=groups, bias=False, dilation=dilation)
+    # return Conv3x3_mofied(in_planes, out_planes, stride=stride, groups=groups, dilation=dilation)
 
 
 
@@ -221,6 +226,23 @@ class ResNet(nn.Module):
     def forward(self, x):
         return self._forward_impl(x)
 
+    def set_expansions(self, use_expansion=True):
+        for module in self.modules():
+            if hasattr(module, 'set_expansion'):
+                # print(module)
+                module.set_expansion(use_expansion=use_expansion)
+
+    def re_params(self):
+        for module in self.modules():
+            if hasattr(module, 're_param'):
+                # print(module)
+                module.re_param()
+
+    def clean_expansions(self):
+        for module in self.modules():
+            if hasattr(module, 'clean_expansion'):
+                # print(module)
+                module.clean_expansion()
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs):
     model = ResNet(block, layers, **kwargs)
@@ -353,3 +375,76 @@ def wide_resnet101_2(pretrained=False, progress=True, **kwargs):
     kwargs['width_per_group'] = 64 * 2
     return _resnet('wide_resnet101_2', Bottleneck, [3, 4, 23, 3],
                    pretrained, progress, **kwargs)
+
+if __name__=='__main__':
+    resnet_m=resnet18()
+    print('a')
+    # # resnet_m.zero_expansions()
+    # # resnet_m.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
+    # # print(resnet_m.layer1[0].conv1.expansion_1x1.weight)
+    # resnet_m.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
+    # # resnet_m.zero_expansions()
+    # resnet_m.maxpool = nn.Identity()
+    # # resnet_m.active_expansion()
+    # # print(resnet_m.layer1[0].conv1.expansion_1x1.weight)
+    # # resnet_m.zero_expansions()
+    # # print(resnet_m.layer1[0])
+    #
+    # input=torch.ones([8,3,32,32])
+    # resnet_m.active_expansion()
+    # output=resnet_m(input)
+    # print(output)
+    # resnet_m.reparameterize()
+    # # print(resnet_m.layer1[0].conv1.expansion_1x1.weight)
+    # # resnet_m.active_expansion()
+    # output=resnet_m(input)
+    # print(output)
+    # # resnet_m.reparameterize()
+    # # resnet_m.active_expansion()
+    # resnet_m.active_expansion(use_expansion=False)
+    # output=resnet_m(input)
+    # print(output)
+    # resnet_m.active_expansion(use_expansion=True)
+    # output=resnet_m(input)
+    # print(output)
+    #
+    # # input2=torch.ones([8,64,32,32])
+    # # resnet_m.layer1[0].conv1.expansion_1x1.weight.data.zero_()
+    # # output=resnet_m.layer1[0].conv1.expansion_1x1(input2)
+    # # print(resnet_m.layer1)
+    # # print(output)
+    # # print(resnet_m.layer1[0].conv1.expansion_1x1)
+    #
+    # # print(resnet_m.layer1[0].conv1.expansion_1x1.weight)
+    #
+    #
+    #
+    # # resnet_m=resnet18()
+    # # resnet_m.maxpool = nn.Identity()
+    # #
+    # # input=torch.ones([8,3,32,32])
+    # # output=resnet_m(input)
+    # # print(output)
+    # # resnet_m.reparameterize()
+    # # output=resnet_m(input)
+    # # print(output)
+    # # resnet_m.active_expansion()
+    # # output=resnet_m(input)
+    # # print(output)
+
+    resnet_m=resnet18()
+    resnet_m.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
+    resnet_m.maxpool = nn.Identity()
+    input=torch.ones([8,3,32,32])
+    # 打开 expansion
+    resnet_m.set_expansions()
+    output=resnet_m(input)
+    print(output)
+    # 重参数化
+    resnet_m.re_params()
+    output=resnet_m(input)
+    print(output)
+    # 关闭expansion
+    resnet_m.set_expansions(use_expansion=False)
+    output=resnet_m(input)
+    print(output)

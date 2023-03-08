@@ -174,14 +174,20 @@ def main():
     # model.encoder.clean_expansions()
     # model.encoder.set_expansions(use_expansion=False)
 
-    # expansion
-    if args.task_idx==0:
-        model.encoder.clean_expansions()
-        model.encoder.set_expansions(use_expansion=False)
-    elif args.use_expansion:
-        model.encoder.set_expansions(use_expansion=True)
+
+    if args.use_branch:
+        model.encoder.set_branchs(True)
     else:
-        model.encoder.set_expansions(use_expansion=False)
+        model.encoder.set_branchs(False)
+
+    if args.fix_conv:
+        model.fix_conv=True
+    else:
+        model.fix_cov=False
+
+
+
+
 
     # re_param
     if args.re_param:

@@ -25,8 +25,8 @@ python3 main_continual.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name simclr-cifar100 \
-    --project casslev12 \
+    --name debug \
+    --project cassle-official \
     --entity pigpeppa \
     --wandb \
     --save_checkpoint \
@@ -34,4 +34,5 @@ python3 main_continual.py \
     --temperature 0.2 \
     --proj_hidden_dim 2048 \
     --output_dim 256 \
-    --disable_knn_eval
+    --disable_knn_eval \
+

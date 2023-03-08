@@ -4,7 +4,7 @@ python3 main_continual.py \
     --data_dir $DATA_DIR \
     --split_strategy class \
     --max_epochs 500 \
-    --num_tasks 5 \
+    --num_tasks 2 \
     --task_idx 0 \
     --gpus 0 \
     --precision 16 \
@@ -26,8 +26,8 @@ python3 main_continual.py \
     --gaussian_prob 0.0 0.0 \
     --solarization_prob 0.0 0.2 \
     --name byol-cifar100 \
-    --project casslev1 \
-    --entity pigpeppa \
+    --project ever-learn \
+    --entity unitn-mhug \
     --wandb \
     --save_checkpoint \
     --method byol \
@@ -36,5 +36,4 @@ python3 main_continual.py \
     --pred_hidden_dim 4096 \
     --base_tau_momentum 0.99 \
     --final_tau_momentum 1.0 \
-    --momentum_classifier \
-    --disable_knn_eval
+    --momentum_classifier
