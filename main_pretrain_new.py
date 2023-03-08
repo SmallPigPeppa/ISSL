@@ -182,7 +182,7 @@ def main():
     if args.fix_conv:
         model.fix_conv=True
     else:
-        model.fix_cov=False
+        model.fix_conv=False
 
 
 
