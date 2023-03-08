@@ -3,7 +3,7 @@ python3 main_continual_new.py \
     --encoder resnet18_cifar \
     --data_dir $DATA_DIR \
     --split_strategy class \
-    --task_idx 0 \
+    --task_idx 1 \
     --max_epochs 500 \
     --num_tasks 5 \
     --gpus 0 \
