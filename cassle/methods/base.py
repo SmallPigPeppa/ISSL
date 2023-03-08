@@ -173,9 +173,7 @@ class BaseModel(pl.LightningModule):
         if not self.disable_knn_eval:
             self.knn = WeightedKNNClassifier(k=knn_k, distance_fx="euclidean")
 
-        print('######################################')
-        print('use_expansion:', self.extra_args['use_expansion'])
-        print('######################################')
+
 
 
 
