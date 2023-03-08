@@ -172,6 +172,24 @@ class SimCLR(BaseModel):
 
     def on_train_start(self) -> None:
         if self.fix_conv:
-            self.encoder.fix_convs()
+            self.set_conv_params(["conv3x3_bn", "conv1x1_bn"])
+            self.replace_bn_with_identity()
+
     def on_train_end(self) -> None:
         self.encoder.re_params()
+
+    def set_conv_params(self, target_names, requires_grad=False):
+        for name, child in self.named_children():
+            for target_name in target_names:
+                if target_name in name:
+                    for param_name, param in child[0].named_parameters():
+                        param.requires_grad = requires_grad
+
+    def replace_bn_with_identity(self):
+        for name, child in self.named_children():
+            if "conv3x3_bn" in name or "conv1x1_bn" in name:
+                for bn_name, bn in child.named_children():
+                    if isinstance(bn, torch.nn.BatchNorm2d):
+                        setattr(child, bn_name, torch.nn.Identity())
+            else:
+                child.replace_bn_with_identity()
