@@ -242,25 +242,25 @@ class ResNet(nn.Module):
             if hasattr(module, 'zero_branch'):
                 module.zero_branch()
 
-    def fix_convs(self):
+    def fix_convs(self,requires_grad=False):
         for module in self.modules():
             if hasattr(module, 'fix_conv'):
-                module.fix_conv()
+                module.fix_conv(requires_grad)
 
-    def fix_branchs(self):
+    def fix_branchs(self,requires_grad=False):
         for module in self.modules():
             if hasattr(module, 'fix_branch'):
-                module.fix_branch()
+                module.fix_branch(requires_grad)
 
     def set_branchs(self,use_branch=True):
         for module in self.modules():
             if hasattr(module, 'set_branch'):
                 module.set_branch(use_branch)
-    def fix_bns(self):
+    def fix_bns(self,requires_grad):
         for name, module in (self.named_modules()):
             if isinstance(module,torch.nn.BatchNorm2d):
                 for param in module.parameters():
-                    param.requires_grad = False
+                    param.requires_grad = requires_grad
 
 
 

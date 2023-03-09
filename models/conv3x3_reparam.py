@@ -30,11 +30,11 @@ class Conv3x3_Reparam(nn.Module):
         else:
             return z1
 
-    def fix_conv(self):
-        self.conv3x3.weight.requires_grad = False
+    def fix_conv(self, requires_grad=False):
+        self.conv3x3.weight.requires_grad = requires_grad
 
-    def fix_branch(self):
-        self.branch1x1.weight.requires_grad =False
+    def fix_branch(self, requires_grad=False):
+        self.branch1x1.weight.requires_grad = requires_grad
 
     def set_branch(self, use_branch=True):
         self.use_branch = use_branch
@@ -52,7 +52,6 @@ class Conv3x3_Reparam(nn.Module):
 
     def zero_branch(self):
         init.zeros_(self.branch1x1.weight)
-
 
 
 if __name__ == '__main__':
