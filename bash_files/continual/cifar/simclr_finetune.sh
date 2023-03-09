@@ -1,5 +1,4 @@
 python3 main_continual_new.py \
-    --use_branch_and_fix_conv_tasks 1 2 3 4 5 \
     --dataset cifar100 \
     --encoder resnet18_cifar \
     --data_dir $DATA_DIR \
@@ -25,7 +24,7 @@ python3 main_continual_new.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name reparam-v1.0 \
+    --name fine-tune \
     --project SSIL-change-split \
     --entity pigpeppa \
     --wandb \

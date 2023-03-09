@@ -249,6 +249,7 @@ class BaseModel(pl.LightningModule):
         # parser.add_argument("--fixed_model_path", type=str)
         parser.add_argument("--use_branch", action="store_true")
         parser.add_argument("--fix_conv", action="store_true")
+        parser.add_argument('--use_branch_and_fix_conv_tasks', type=int, nargs='+', default=[])
         # parser.add_argument("--re_param", action="store_true")
         # parser.add_argument("--use_original_fixed_model", action="store_true")
 
