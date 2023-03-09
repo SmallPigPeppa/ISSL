@@ -83,7 +83,7 @@ if __name__ == "__main__":
             task_args.update(distill_args)
 
         # add reparam args
-        use_expansion_tasks = task_args["--use_branch_and_fix_conv_tasks"]
+        use_expansion_tasks = task_args.pop("--use_branch_and_fix_conv_tasks", [])
         if task_idx in use_expansion_tasks:
             task_args["--use_branch"] = '    '
             task_args["--fix_conv"] = '    '
