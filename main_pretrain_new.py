@@ -183,8 +183,8 @@ def main():
         model.encoder.fix_convs()
         model.encoder.fix_bns()
     else:
-        model.encoder.fix_convs(requires_grad=False)
-        model.encoder.fix_bns(requires_grad=False)
+        model.encoder.fix_convs(requires_grad=True)
+        model.encoder.fix_bns(requires_grad=True)
 
 
 
