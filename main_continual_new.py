@@ -92,3 +92,4 @@ if __name__ == "__main__":
         task_args = dict_to_list(task_args)
 
         run_bash_command(task_args)
+
