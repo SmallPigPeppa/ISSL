@@ -181,6 +181,7 @@ def main():
 
     if args.fix_conv:
         model.encoder.fix_convs()
+        model.encoder.fix_bns()
     else:
         pass
 

@@ -256,6 +256,12 @@ class ResNet(nn.Module):
         for module in self.modules():
             if hasattr(module, 'set_branch'):
                 module.set_branch(use_branch)
+    def fix_bns(self):
+        for name, module in (self.named_modules()):
+            if isinstance(module,torch.nn.BatchNorm2d):
+                for param in module.parameters():
+                    param.requires_grad = False
+
 
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs):
@@ -400,7 +406,7 @@ if __name__=='__main__':
     # m.eval()
     y = m(x)
     print(y)
-
+    m.fix_bns()
     m.re_params()
     y2 = m(x)
     print(y2)
