@@ -51,12 +51,8 @@ def main():
     # split classes into tasks
     tasks = None
     if args.split_strategy == "class":
-        assert args.num_classes % (args.num_tasks-1) == 0
-        # tasks = torch.randperm(args.num_classes).chunk(args.num_tasks)
-        tasks_order = torch.randperm(args.num_classes)
-        first_part, remaining = torch.chunk(tasks_order, 2)
-        incremental_part=torch.chunk(remaining, args.num_tasks-1)
-        tasks=[first_part]+list(incremental_part)
+        assert args.num_classes % args.num_tasks == 0
+        tasks = torch.randperm(args.num_classes).chunk(args.num_tasks)
 
     # pretrain and online eval dataloaders
     if not args.dali:
@@ -253,6 +249,13 @@ def main():
 
     model.current_task_idx = args.task_idx
 
+    # # 保存一下初始化
+    # initial_ckpt_path='/home/admin/code/cassle_initial.ckpt'
+    # trainer_tmp=Trainer(max_epochs=0)
+    # trainer_tmp.fit(model,train_loaders, val_loader)
+    # trainer_tmp.save_checkpoint(initial_ckpt_path)
+    # print('************************************* save initial ckpt ********************************')
+    # print(f'initial_ckpt_path:{initial_ckpt_path}')
 
     if args.dali:
         trainer.fit(model, val_dataloaders=val_loader)
