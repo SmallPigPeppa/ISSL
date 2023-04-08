@@ -1,6 +1,6 @@
-python3 main_continual_finetune.py \
+python3 main_continual_reparam.py \
     --dataset cifar100 \
-    --encoder resnet18_cifar \
+    --encoder resnet18_cifar_reparam \
     --data_dir $DATA_DIR \
     --split_strategy class \
     --task_idx 0 \
@@ -24,7 +24,7 @@ python3 main_continual_finetune.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name finetune-2tasks \
+    --name reparam-2t \
     --project SSIL-cka \
     --entity pigpeppa \
     --wandb \

@@ -24,7 +24,7 @@ python3 main_continual_upbound.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name upbound-2tasks \
+    --name upbound-2 \
     --project SSIL-cka \
     --entity pigpeppa \
     --wandb \
