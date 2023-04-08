@@ -171,7 +171,11 @@ class SimCLR(BaseModel):
         return out
 
 
+    # def on_train_end(self) -> None:
+    #     self.encoder.re_params()
     def on_train_end(self) -> None:
-        self.encoder.re_params()
+        if hasattr(self.encoder, "reparam"):
+            self.encoder.reparam()
+            print("Encoder's reparam method has been executed successfully.")
 
 
