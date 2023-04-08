@@ -50,15 +50,16 @@ def main():
 
     # split classes into tasks
     tasks = None
+    train_tasks=None
     if args.split_strategy == "class":
         assert args.num_classes % args.num_tasks == 0
         tasks = torch.randperm(args.num_classes).chunk(args.num_tasks)
     elif args.split_strategy == "upbound":
         assert args.num_classes % args.num_tasks == 0
         indices = torch.randperm(args.num_classes)
-        tasks = []
+        train_tasks = []
         for i in range(args.num_tasks):
-            tasks.append(indices[:int((i + 1) * args.num_classes / args.num_tasks)])
+            train_tasks.append(indices[:int((i + 1) * args.num_classes / args.num_tasks)])
 
     # pretrain and online eval dataloaders
     if not args.dali:
@@ -106,14 +107,22 @@ def main():
             train_dir=args.train_dir,
             no_labels=args.no_labels,
         )
-
-        task_dataset, tasks = split_dataset(
-            train_dataset,
-            tasks=tasks,
-            task_idx=args.task_idx,
-            num_tasks=args.num_tasks,
-            split_strategy=args.split_strategy,
-        )
+        if train_tasks is None:
+            task_dataset, tasks = split_dataset(
+                train_dataset,
+                tasks=tasks,
+                task_idx=args.task_idx,
+                num_tasks=args.num_tasks,
+                split_strategy=args.split_strategy,
+            )
+        else:
+            task_dataset, tasks = split_dataset(
+                train_dataset,
+                tasks=train_tasks,
+                task_idx=args.task_idx,
+                num_tasks=args.num_tasks,
+                split_strategy=args.split_strategy,
+            )
 
         task_loader = prepare_dataloader(
             task_dataset,

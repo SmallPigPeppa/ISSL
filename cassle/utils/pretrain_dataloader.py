@@ -20,6 +20,11 @@ def split_dataset(
         mask = [(c in tasks[task_idx]) for c in dataset.targets]
         indexes = torch.tensor(mask).nonzero()
         task_dataset = Subset(dataset, indexes)
+    elif split_strategy == "upbound":
+        assert len(dataset.classes) == sum([len(t) for t in tasks])
+        mask = [(c in tasks[task_idx]) for c in dataset.targets]
+        indexes = torch.tensor(mask).nonzero()
+        task_dataset = Subset(dataset, indexes)
     elif split_strategy == "data":
         assert tasks is None
         lengths = [len(dataset) // num_tasks] * num_tasks
