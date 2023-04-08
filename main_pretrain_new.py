@@ -189,20 +189,26 @@ def main():
 
 
 
-    if args.use_branch:
-        model.encoder.set_branchs(True)
+    # if args.use_branch:
+    #     model.encoder.set_branchs(True)
+    # else:
+    #     model.encoder.set_branchs(False)
+    #
+    # if args.fix_conv:
+    #     model.encoder.fix_convs()
+    # else:
+    #     pass
+
+    if hasattr(model.encoder, "set_branchs"):
+        model.encoder.set_branchs(args.use_branch)
     else:
-        model.encoder.set_branchs(False)
+        print("Encoder doesn't have a set_branchs method.")
 
-    if args.fix_conv:
-        model.encoder.fix_convs()
+    if hasattr(model.encoder, "fix_convs"):
+        if args.fix_conv:
+            model.encoder.fix_convs()
     else:
-        pass
-
-
-
-
-
+        print("Encoder doesn't have a fix_convs method.")
 
     # # use fixed_model_path
     # if args.fixed_model_path:
