@@ -53,6 +53,12 @@ def main():
     if args.split_strategy == "class":
         assert args.num_classes % args.num_tasks == 0
         tasks = torch.randperm(args.num_classes).chunk(args.num_tasks)
+    elif args.split_strategy == "upbound":
+        assert args.num_classes % args.num_tasks == 0
+        indices = torch.randperm(args.num_classes)
+        tasks = []
+        for i in range(args.num_tasks):
+            tasks.append(indices[:int((i + 1) * args.num_classes / args.num_tasks)])
 
     # pretrain and online eval dataloaders
     if not args.dali:
