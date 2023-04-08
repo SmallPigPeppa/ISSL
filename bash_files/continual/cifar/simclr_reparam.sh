@@ -1,9 +1,9 @@
-python3 main_continual_new.py \
+python3 main_continual_reparam.py \
     --dataset cifar100 \
     --encoder resnet18_cifar_reparam \
     --data_dir $DATA_DIR \
     --split_strategy class \
-    --task_idx 2 \
+    --task_idx 0 \
     --max_epochs 500 \
     --num_tasks 5 \
     --gpus 0 \
@@ -24,8 +24,8 @@ python3 main_continual_new.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name reparam-v1.0 \
-    --project SSIL \
+    --name reparam \
+    --project SSIL-cka \
     --entity pigpeppa \
     --wandb \
     --save_checkpoint \
@@ -33,6 +33,5 @@ python3 main_continual_new.py \
     --temperature 0.2 \
     --proj_hidden_dim 2048 \
     --output_dim 256 \
-    --disable_knn_eval \
-    --pretrained_model $PRETRAINED_PATH
+    --disable_knn_eval
 

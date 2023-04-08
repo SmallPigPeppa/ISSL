@@ -1,8 +1,8 @@
-python3 main_continual_upbound.py \
+python3 main_continual_reparam_sa.py \
     --dataset cifar100 \
     --encoder resnet18_cifar_reparam \
     --data_dir $DATA_DIR \
-    --split_strategy upbound \
+    --split_strategy class \
     --task_idx 0 \
     --max_epochs 500 \
     --num_tasks 5 \
@@ -24,7 +24,7 @@ python3 main_continual_upbound.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name upbound \
+    --name reparam_sa \
     --project SSIL-cka \
     --entity pigpeppa \
     --wandb \
