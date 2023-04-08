@@ -157,12 +157,17 @@ class BaseModel(pl.LightningModule):
             self.min_lr = self.min_lr * self.accumulate_grad_batches
             self.warmup_start_lr = self.warmup_start_lr * self.accumulate_grad_batches
 
-        assert encoder in ["resnet18", "resnet50","resnet18_cifar", "resnet50_cifar"]
+        assert encoder in ["resnet18", "resnet50", "resnet18_cifar", "resnet50_cifar"]
 
-        from models.cifar_resnet18_reparam import resnet18 as resnet18_cifar
+        from models.resnet18_cifar_reparam import resnet18 as resnet18_cifar_reparam
+        from models.resenet_cifar import resnet18 as resnet18_cifar
+        from models.resnet_original import resnet18
 
-
-        self.base_model = {"resnet18_cifar": resnet18_cifar, }[encoder]
+        self.base_model = {
+            "resnet18": resnet18,
+            "resnet18_cifar": resnet18_cifar,
+            "resnet18_cifar_reparam": resnet18_cifar_reparam
+        }[encoder]
 
         # initialize encoder
         self.encoder = self.base_model(zero_init_residual=zero_init_residual)
@@ -173,10 +178,6 @@ class BaseModel(pl.LightningModule):
 
         if not self.disable_knn_eval:
             self.knn = WeightedKNNClassifier(k=knn_k, distance_fx="euclidean")
-
-
-
-
 
     @staticmethod
     def add_model_specific_args(parent_parser: ArgumentParser) -> ArgumentParser:
@@ -193,7 +194,7 @@ class BaseModel(pl.LightningModule):
         parser = parent_parser.add_argument_group("base")
 
         # encoder args
-        SUPPORTED_NETWORKS = ["resnet18", "resnet50","resnet18_cifar", "resnet50_cifar"]
+        SUPPORTED_NETWORKS = ["resnet18", "resnet50", "resnet18_cifar", "resnet50_cifar"]
 
         parser.add_argument("--encoder", choices=SUPPORTED_NETWORKS, type=str)
         parser.add_argument("--zero_init_residual", action="store_true")
@@ -283,7 +284,6 @@ class BaseModel(pl.LightningModule):
                 "weight_decay": 0,
             },
         ]
-
 
     # @property
     # def learnable_params(self) -> List[Dict[str, Any]]:
