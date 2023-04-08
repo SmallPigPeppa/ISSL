@@ -161,6 +161,7 @@ class BaseModel(pl.LightningModule):
 
         from models.cifar_resnet18_reparam import resnet18 as resnet18_cifar
 
+
         self.base_model = {"resnet18_cifar": resnet18_cifar, }[encoder]
 
         # initialize encoder
