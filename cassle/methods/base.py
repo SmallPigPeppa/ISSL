@@ -157,7 +157,8 @@ class BaseModel(pl.LightningModule):
             self.min_lr = self.min_lr * self.accumulate_grad_batches
             self.warmup_start_lr = self.warmup_start_lr * self.accumulate_grad_batches
 
-        assert encoder in ["resnet18", "resnet50", "resnet18_cifar", "resnet50_cifar","resnet18_cifar_reparam", "resnet50_cifar_reparam"]
+        assert encoder in ["resnet18", "resnet50", "resnet18_cifar", "resnet50_cifar", "resnet18_cifar_reparam",
+                           "resnet50_cifar_reparam"]
 
         from models.resnet18_cifar_reparam import resnet18 as resnet18_cifar_reparam
         from models.resenet_cifar import resnet18 as resnet18_cifar
@@ -194,7 +195,9 @@ class BaseModel(pl.LightningModule):
         parser = parent_parser.add_argument_group("base")
 
         # encoder args
-        SUPPORTED_NETWORKS = ["resnet18", "resnet50", "resnet18_cifar", "resnet50_cifar"]
+        SUPPORTED_NETWORKS = ["resnet18", "resnet50",
+                              "resnet18_cifar", "resnet50_cifar",
+                              "resnet18_cifar_reparam", "resnet50_cifar_reparam"]
 
         parser.add_argument("--encoder", choices=SUPPORTED_NETWORKS, type=str)
         parser.add_argument("--zero_init_residual", action="store_true")
