@@ -1,4 +1,4 @@
-python3 main_continual_fixbn.py \
+python3 main_continual_finetune_fixbn.py \
     --dataset cifar100 \
     --encoder resnet18_cifar_reparam \
     --data_dir $DATA_DIR \
