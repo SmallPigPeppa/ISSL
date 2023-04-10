@@ -61,7 +61,7 @@ def main():
         for i in range(args.num_tasks):
             train_tasks.append(indices[:int((i + 1) * args.num_classes / args.num_tasks)])
 
-    print(train_tasks)
+    print(tasks)
     #
     # # pretrain and online eval dataloaders
     # if not args.dali:
