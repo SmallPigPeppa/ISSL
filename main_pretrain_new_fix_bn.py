@@ -60,7 +60,6 @@ def main():
         train_tasks = []
         for i in range(args.num_tasks):
             train_tasks.append(indices[:int((i + 1) * args.num_classes / args.num_tasks)])
-
     print(tasks)
 
     # pretrain and online eval dataloaders
@@ -271,7 +270,6 @@ def main():
     )
 
     model.current_task_idx = args.task_idx
-
 
     # # 保存一下初始化
     # initial_ckpt_path='/home/admin/code/cassle_initial.ckpt'
