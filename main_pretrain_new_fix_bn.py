@@ -50,7 +50,7 @@ def main():
 
     # split classes into tasks
     tasks = None
-    train_tasks=None
+    train_tasks = None
     if args.split_strategy == "class":
         assert args.num_classes % args.num_tasks == 0
         tasks = torch.randperm(args.num_classes).chunk(args.num_tasks)
@@ -187,9 +187,6 @@ def main():
     # state_dict_initial = torch.load('/home/admin/code/cassle_initial.ckpt', map_location="cpu")["state_dict"]
     # model.load_state_dict(state_dict_initial, strict=False)
 
-
-
-
     # if args.use_branch:
     #     model.encoder.set_branchs(True)
     # else:
@@ -270,6 +267,11 @@ def main():
     )
 
     model.current_task_idx = args.task_idx
+    if args.task_idx != 0:
+        for name, module in model.named_modules():
+            if isinstance(module, torch.nn.BatchNorm2d):
+                module.weight.requires_grad = False
+                module.bias.requires_grad = False
 
     # # 保存一下初始化
     # initial_ckpt_path='/home/admin/code/cassle_initial.ckpt'
