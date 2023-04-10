@@ -271,7 +271,7 @@ def main():
         for name, module in model.named_modules():
             if isinstance(module, torch.nn.Conv2d):
                 module.weight.requires_grad = False
-                module.bias.requires_grad = False
+                # module.bias.requires_grad = False
 
     # # 保存一下初始化
     # initial_ckpt_path='/home/admin/code/cassle_initial.ckpt'
