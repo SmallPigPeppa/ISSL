@@ -36,7 +36,7 @@ def run_bash_command(args):
     for i, a in enumerate(args):
         if isinstance(a, list):
             args[i] = " ".join(a)
-    command = ("python3 main_pretrain_new_fix_bn.py", *args)
+    command = ("python3 main_pretrain_new_fixbn.py", *args)
     command = " ".join(command)
     p = subprocess.Popen(command, shell=True)
     p.wait()

@@ -1,9 +1,9 @@
-python3 main_continual_finetune_debug.py \
+python3 main_continual_finetune.py \
     --dataset cifar100 \
     --encoder resnet18_cifar_reparam \
     --data_dir $DATA_DIR \
     --split_strategy class \
-    --task_idx 0 \
+    --task_idx 1 \
     --max_epochs 500 \
     --num_tasks 5 \
     --gpus 0 \
@@ -24,7 +24,7 @@ python3 main_continual_finetune_debug.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name finetune-debug \
+    --name finetune-fixbn \
     --project SSIL-cka \
     --entity pigpeppa \
     --wandb \
@@ -33,5 +33,6 @@ python3 main_continual_finetune_debug.py \
     --temperature 0.2 \
     --proj_hidden_dim 2048 \
     --output_dim 256 \
-    --disable_knn_eval
+    --disable_knn_eval \
+    --pretrained_model $PRETRAINED_PATH
 
