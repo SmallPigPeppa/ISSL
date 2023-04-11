@@ -22,7 +22,7 @@ model_urls = {
 }
 
 from models.conv1x1_reparam import Conv1x1_Reparam
-from models.conv3x3_reparam_3x3 import Conv3x3_Reparam
+from models.conv3x3_reparam_1x3 import Conv3x3_Reparam
 
 def conv3x3(in_planes, out_planes, stride=1, groups=1, dilation=1):
     """3x3 convolution with padding"""
