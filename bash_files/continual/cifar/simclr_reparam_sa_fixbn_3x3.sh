@@ -1,9 +1,9 @@
 python3 main_continual_reparam_sa_fixbn.py \
     --dataset cifar100 \
-    --encoder resnet18_cifar_reparam \
+    --encoder resnet18_cifar_reparam_3x3 \
     --data_dir $DATA_DIR \
     --split_strategy class \
-    --task_idx 1 \
+    --task_idx 0 \
     --max_epochs 500 \
     --num_tasks 5 \
     --gpus 0 \
@@ -33,6 +33,5 @@ python3 main_continual_reparam_sa_fixbn.py \
     --temperature 0.2 \
     --proj_hidden_dim 2048 \
     --output_dim 256 \
-    --disable_knn_eval \
-    --pretrained_model $PRETRAINED_PATH
+    --disable_knn_eval
 
