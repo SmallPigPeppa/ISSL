@@ -1,4 +1,4 @@
-python3 main_continual_reparam_fixbn.py \
+python3 main_continual_reparam_sa.py \
     --dataset cifar100 \
     --encoder resnet18_cifar_reparam_1x3 \
     --data_dir $DATA_DIR \
@@ -24,7 +24,7 @@ python3 main_continual_reparam_fixbn.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name reparam-fixbn-1x3 \
+    --name reparam-sa-1x3 \
     --project SSIL-cka \
     --entity pigpeppa \
     --wandb \
