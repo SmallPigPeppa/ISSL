@@ -24,7 +24,7 @@ python3 main_continual_reparam_sa_fixbn.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name reparam_sa-fixbn \
+    --name reparam-sa-fixbn \
     --project SSIL-cka \
     --entity pigpeppa \
     --wandb \
