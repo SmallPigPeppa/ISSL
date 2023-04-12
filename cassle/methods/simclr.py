@@ -120,7 +120,6 @@ class SimCLR(BaseModel):
         """
 
         indexes, *_, target = batch[f"task{self.current_task_idx}"]
-
         out = super().training_step(batch, batch_idx)
 
         if self.multicrop:
