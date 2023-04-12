@@ -120,8 +120,6 @@ class SimCLR(BaseModel):
         """
 
         indexes, *_, target = batch[f"task{self.current_task_idx}"]
-        if self.fixbn is not None:
-            self.set_bn_eval(self.encoder)
 
         out = super().training_step(batch, batch_idx)
 
