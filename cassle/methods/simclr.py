@@ -86,7 +86,11 @@ class SimCLR(BaseModel):
         if self.fixbn is not None:
             self.set_bn_eval(self.encoder)
         out = super().forward(X, *args, **kwargs)
-        z = self.projector(out["feats"])
+        if self.fixproject is not None:
+            with torch.no_grad():
+                z = self.projector(out["feats"])
+        else:
+            z = self.projector(out["feats"])
         return {**out, "z": z}
 
     @torch.no_grad()
