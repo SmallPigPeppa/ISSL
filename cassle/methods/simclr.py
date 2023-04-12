@@ -67,6 +67,11 @@ class SimCLR(BaseModel):
 
         # return extra_learnable_params
 
+    def set_bn_eval(self, model):
+        for m in model.modules():
+            if isinstance(m, nn.BatchNorm2d):
+                m.eval()
+
     def forward(self, X: torch.tensor, *args, **kwargs) -> Dict[str, Any]:
         """Performs the forward pass of the encoder, the projector and the predictor.
 
@@ -78,7 +83,8 @@ class SimCLR(BaseModel):
                 a dict containing the outputs of the parent
                 and the projected and predicted features.
         """
-
+        if self.fixbn is not None:
+            self.set_bn_eval(self.encoder)
         out = super().forward(X, *args, **kwargs)
         z = self.projector(out["feats"])
         return {**out, "z": z}
