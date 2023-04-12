@@ -67,10 +67,6 @@ class SimCLR(BaseModel):
 
         # return extra_learnable_params
 
-    def set_bn_eval(self, model):
-        for m in model.modules():
-            if isinstance(m, nn.BatchNorm2d):
-                m.eval()
 
     def forward(self, X: torch.tensor, *args, **kwargs) -> Dict[str, Any]:
         """Performs the forward pass of the encoder, the projector and the predictor.
@@ -83,14 +79,8 @@ class SimCLR(BaseModel):
                 a dict containing the outputs of the parent
                 and the projected and predicted features.
         """
-        if self.fixbn is not None:
-            self.set_bn_eval(self.encoder)
         out = super().forward(X, *args, **kwargs)
-        if self.fixproject is not None:
-            with torch.no_grad():
-                z = self.projector(out["feats"])
-        else:
-            z = self.projector(out["feats"])
+        z = self.projector(out["feats"])
         return {**out, "z": z}
 
     @torch.no_grad()
@@ -112,6 +102,11 @@ class SimCLR(BaseModel):
         labels_matrix = (labels_matrix == labels_matrix.t()).fill_diagonal_(False)
         return labels_matrix
 
+    def set_bn_eval(self, model):
+        for m in model.modules():
+            if isinstance(m, nn.BatchNorm2d):
+                m.eval()
+
     def training_step(self, batch: Sequence[Any], batch_idx: int) -> torch.Tensor:
         """Training step for SimCLR and supervised SimCLR reusing BaseModel training step.
 
@@ -125,6 +120,8 @@ class SimCLR(BaseModel):
         """
 
         indexes, *_, target = batch[f"task{self.current_task_idx}"]
+        if self.fixbn is not None:
+            self.set_bn_eval(self.encoder)
 
         out = super().training_step(batch, batch_idx)
 
