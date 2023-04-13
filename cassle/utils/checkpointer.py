@@ -131,13 +131,37 @@ class Checkpointer(Callback):
         self.initial_setup(trainer)
         self.save_args(trainer)
 
-    def on_train_epoch_end(self, trainer: pl.Trainer, _):
-        """Tries to save current checkpoint at the end of each validation epoch.
+    # def on_train_epoch_end(self, trainer: pl.Trainer, _):
+    #     """Tries to save current checkpoint at the end of each validation epoch.
+    #
+    #     Args:
+    #         trainer (pl.Trainer): pytorch lightning trainer object.
+    #     """
+    #
+    #     epoch = trainer.current_epoch  # type: ignore
+    #     if epoch % self.frequency == 0:
+    #         self.save(trainer)
+
+
+    # def on_train_end(self) -> None:
+    #     if hasattr(self.encoder, "re_params"):
+    #         self.encoder.re_params()
+    #         print("Encoder's re_params method has been executed successfully.")
+    #     else:
+    #         print("Encoder has no re_params method.")
+
+    def on_train_end(self, trainer: pl.Trainer, pl_module: pl.LightningModule):
+        """Tries to save current checkpoint at the end of training and
+        calls the on_train_end method of the SimCLR model.
 
         Args:
             trainer (pl.Trainer): pytorch lightning trainer object.
+            pl_module (pl.LightningModule): pytorch lightning module object.
         """
+        from cassle.methods.simclr import SimCLR
+        if isinstance(pl_module, SimCLR):
+            pl_module.on_train_end()
+            print('Reparams excute before save')
+        self.save(trainer)
 
-        epoch = trainer.current_epoch  # type: ignore
-        if epoch % self.frequency == 0:
-            self.save(trainer)
+
