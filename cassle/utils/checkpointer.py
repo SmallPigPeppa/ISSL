@@ -156,6 +156,12 @@ class Checkpointer(Callback):
         if isinstance(pl_module, SimCLR):
             pl_module.on_train_end()
             print('Reparams excute before save')
+
+        from cassle.methods.byol import BYOL
+        if isinstance(pl_module, BYOL):
+            pl_module.on_train_end()
+            print('Reparams excute before save')
+
         self.save(trainer)
 
 
