@@ -181,5 +181,7 @@ class SimCLR(BaseModel):
         if hasattr(self.encoder, "reparams"):
             self.encoder.reparams()
             print("Encoder's reparam method has been executed successfully.")
+        else:
+            print("Encoder has no reparam method.")
 
 
