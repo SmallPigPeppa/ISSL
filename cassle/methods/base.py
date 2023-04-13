@@ -625,11 +625,11 @@ class BaseMomentumModel(BaseModel):
         # momentum encoder
         self.momentum_encoder = self.base_model(zero_init_residual=self.zero_init_residual)
         self.momentum_encoder.fc = nn.Identity()
-        if self.cifar:
-            self.momentum_encoder.conv1 = nn.Conv2d(
-                3, 64, kernel_size=3, stride=1, padding=2, bias=False
-            )
-            self.momentum_encoder.maxpool = nn.Identity()
+        # if self.cifar:
+        #     self.momentum_encoder.conv1 = nn.Conv2d(
+        #         3, 64, kernel_size=3, stride=1, padding=2, bias=False
+        #     )
+        #     self.momentum_encoder.maxpool = nn.Identity()
         initialize_momentum_params(self.encoder, self.momentum_encoder)
 
         # momentum classifier
