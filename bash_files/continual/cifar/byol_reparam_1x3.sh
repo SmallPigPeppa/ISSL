@@ -1,11 +1,11 @@
-python3 main_continual.py \
+python3 main_continual_reparam.py \
     --dataset cifar100 \
-    --encoder resnet18 \
+    --encoder resnet18_cifar_reparam_1x3 \
     --data_dir $DATA_DIR \
     --split_strategy class \
-    --max_epochs 500 \
-    --num_tasks 2 \
     --task_idx 0 \
+    --max_epochs 1 \
+    --num_tasks 5 \
     --gpus 0 \
     --precision 16 \
     --optimizer sgd \
@@ -25,9 +25,9 @@ python3 main_continual.py \
     --hue 0.1 \
     --gaussian_prob 0.0 0.0 \
     --solarization_prob 0.0 0.2 \
-    --name byol-cifar100 \
-    --project ever-learn \
-    --entity unitn-mhug \
+    --name reparam-1x3 \
+    --project ISSL-byol \
+    --entity pigpeppa \
     --wandb \
     --save_checkpoint \
     --method byol \
