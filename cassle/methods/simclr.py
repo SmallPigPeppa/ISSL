@@ -180,8 +180,8 @@ class SimCLR(BaseModel):
     def on_train_end(self) -> None:
         if hasattr(self.encoder, "reparams"):
             self.encoder.reparams()
-            print("Encoder's reparam method has been executed successfully.")
+            print("Encoder's reparams method has been executed successfully.")
         else:
-            print("Encoder has no reparam method.")
+            print("Encoder has no reparams method.")
 
 
