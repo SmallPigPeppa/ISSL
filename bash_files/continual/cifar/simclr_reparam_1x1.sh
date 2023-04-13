@@ -1,6 +1,6 @@
 python3 main_continual_reparam.py \
     --dataset cifar100 \
-    --encoder resnet18_cifar_reparam_1x3 \
+    --encoder resnet18_cifar_reparam \
     --data_dir $DATA_DIR \
     --split_strategy class \
     --task_idx 0 \
@@ -24,7 +24,7 @@ python3 main_continual_reparam.py \
     --saturation 0.8 \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
-    --name reparam-1x3 \
+    --name reparam-1x1 \
     --project ISSL-cka-fixbug \
     --entity pigpeppa \
     --wandb \
