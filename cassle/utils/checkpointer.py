@@ -143,12 +143,6 @@ class Checkpointer(Callback):
     #         self.save(trainer)
 
 
-    # def on_train_end(self) -> None:
-    #     if hasattr(self.encoder, "re_params"):
-    #         self.encoder.re_params()
-    #         print("Encoder's re_params method has been executed successfully.")
-    #     else:
-    #         print("Encoder has no re_params method.")
 
     def on_train_end(self, trainer: pl.Trainer, pl_module: pl.LightningModule):
         """Tries to save current checkpoint at the end of training and
