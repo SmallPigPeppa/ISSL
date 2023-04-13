@@ -25,7 +25,7 @@ python3 main_continual_reparam.py \
     --hue 0.2 \
     --gaussian_prob 0.0 0.0 \
     --name reparam-3x3 \
-    --project SSIL-cka \
+    --project ISSL-cka-fixbug \
     --entity pigpeppa \
     --wandb \
     --save_checkpoint \
