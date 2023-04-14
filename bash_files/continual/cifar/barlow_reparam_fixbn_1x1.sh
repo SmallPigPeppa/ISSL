@@ -1,4 +1,4 @@
-python3 main_continual_reparam.py \
+python3 main_continual_reparam_fixbn.py \
     --dataset cifar100 \
     --encoder resnet18_cifar_reparam \
     --data_dir $DATA_DIR \
@@ -25,7 +25,7 @@ python3 main_continual_reparam.py \
     --hue 0.1 \
     --gaussian_prob 0.0 0.0 \
     --solarization_prob 0.0 0.2 \
-    --name reparam-1x1 \
+    --name reparam-fixbn-1x1 \
     --project ISSL-barlow \
     --entity pigpeppa \
     --wandb \
