@@ -162,6 +162,12 @@ class Checkpointer(Callback):
             pl_module.on_train_end()
             print('Reparams excute before save')
 
+        # BarlowTwins
+        from cassle.methods.barlow_twins import BarlowTwins
+        if isinstance(pl_module, BarlowTwins):
+            pl_module.on_train_end()
+            print('Reparams excute before save')
+
         self.save(trainer)
 
 
