@@ -28,6 +28,7 @@ python3 main_continual_reparam.py \
     --project ISSL-swav \
     --entity pigpeppa \
     --wandb \
+    --save_checkpoint \
     --method swav \
     --proj_hidden_dim 2048 \
     --queue_size 3840 \
