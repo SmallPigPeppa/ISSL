@@ -197,3 +197,11 @@ class SwAV(BaseModel):
         if self.current_epoch < self.freeze_prototypes_epochs:
             for p in self.prototypes.parameters():
                 p.grad = None
+
+    def on_train_end(self) -> None:
+        if hasattr(self.encoder, "re_params"):
+            self.encoder.re_params()
+            print("Encoder's re_params method has been executed successfully.")
+        else:
+            print("Encoder has no re_params method.")
+
