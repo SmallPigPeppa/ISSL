@@ -167,3 +167,17 @@ class MoCoV2Plus(BaseMomentumModel):
 
         out.update({"loss": out["loss"] + nce_loss, "z": [q1, q2]})
         return out
+
+    def on_train_end(self) -> None:
+        if hasattr(self.encoder, "re_params"):
+            self.encoder.re_params()
+            print("Encoder's re_params method has been executed successfully.")
+        else:
+            print("Encoder has no re_params method.")
+
+
+        if hasattr(self.momentum_encoder, "re_params"):
+            self.momentum_encoder.re_params()
+            print("Momentum Encoder's re_params method has been executed successfully.")
+        else:
+            print("Momentum Encoder has no re_params method.")
