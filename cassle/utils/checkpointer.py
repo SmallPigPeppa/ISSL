@@ -173,6 +173,12 @@ class Checkpointer(Callback):
             pl_module.on_train_end()
             print('Reparams excute before save')
 
+
+        from cassle.methods.vicreg import VICReg
+        if isinstance(pl_module, VICReg):
+            pl_module.on_train_end()
+            print('Reparams excute before save')
+
         self.save(trainer)
 
 

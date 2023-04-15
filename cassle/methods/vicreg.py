@@ -115,3 +115,10 @@ class VICReg(BaseModel):
 
         out.update({"loss": out["loss"] + vicreg_loss, "z": [z1, z2]})
         return out
+
+    def on_train_end(self) -> None:
+        if hasattr(self.encoder, "re_params"):
+            self.encoder.re_params()
+            print("Encoder's re_params method has been executed successfully.")
+        else:
+            print("Encoder has no re_params method.")
