@@ -179,6 +179,11 @@ class Checkpointer(Callback):
             pl_module.on_train_end()
             print('Reparams excute before save')
 
+        from cassle.methods.mocov2plus import MoCoV2Plus
+        if isinstance(pl_module, MoCoV2Plus):
+            pl_module.on_train_end()
+            print('Reparams excute before save')
+
         self.save(trainer)
 
 
