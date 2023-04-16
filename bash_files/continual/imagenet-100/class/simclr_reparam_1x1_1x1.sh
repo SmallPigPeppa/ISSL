@@ -26,6 +26,8 @@ python3 main_continual_reparam.py \
     --contrast 0.8 \
     --saturation 0.8 \
     --hue 0.2 \
+    --dali \
+    --check_val_every_n_epoch 9999 \
     --name reparam-1x1-1x1 \
     --project ISSL-simclr-imagenet \
     --entity pigpeppa \
