@@ -1,0 +1,38 @@
+python3 main_continual_reparam.py \
+    --dataset imagenet100 \
+    --encoder resnet18_reparam_1x1_3x3 \
+    --data_dir $DATA_DIR \
+    --train_dir imagenet-100/train \
+    --val_dir imagenet-100/val \
+    --split_strategy class \
+    --max_epochs 500 \
+    --num_tasks 5 \
+    --task_idx 0 \
+    --gpus 0,1 \
+    --accelerator ddp \
+    --sync_batchnorm \
+    --num_workers 5 \
+    --precision 16 \
+    --optimizer sgd \
+    --lars \
+    --grad_clip_lars \
+    --eta_lars 0.02 \
+    --exclude_bias_n_norm \
+    --scheduler warmup_cosine \
+    --lr 0.4 \
+    --weight_decay 1e-4 \
+    --batch_size 128 \
+    --brightness 0.8 \
+    --contrast 0.8 \
+    --saturation 0.8 \
+    --hue 0.2 \
+    --dali \
+    --check_val_every_n_epoch 9999 \
+    --name reparam-1x1-3x3 \
+    --project ISSL-simclr-imagenet \
+    --entity pigpeppa \
+    --wandb \
+    --save_checkpoint \
+    --method simclr \
+    --temperature 0.2 \
+    --proj_hidden_dim 2048

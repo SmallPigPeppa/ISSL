@@ -157,18 +157,30 @@ class BaseModel(pl.LightningModule):
             self.min_lr = self.min_lr * self.accumulate_grad_batches
             self.warmup_start_lr = self.warmup_start_lr * self.accumulate_grad_batches
 
-        assert encoder in ["resnet18", "resnet50", "resnet18_cifar", "resnet50_cifar", "resnet18_cifar_reparam","resnet18_cifar_reparam_3x3","resnet18_cifar_reparam_1x3",
-                           "resnet50_cifar_reparam"]
+        # assert encoder in ["resnet18","resnet18_reparam_1x1_1x1","resnet18_reparam_1x1_1x3", "resnet50", "resnet18_cifar", "resnet50_cifar", "resnet18_cifar_reparam","resnet18_cifar_reparam_3x3","resnet18_cifar_reparam_1x3",
+        #                    "resnet50_cifar_reparam"]
 
         from models.resnet18_cifar_reparam import resnet18 as resnet18_cifar_reparam
         from models.resnet18_cifar_reparam_3x3 import resnet18 as resnet18_cifar_reparam_3x3
         from models.resnet18_cifar_reparam_1x3 import resnet18 as resnet18_cifar_reparam_1x3
+        from models.resnet18_reparam_1x1_1x1 import resnet18 as resnet18_reparam_1x1_1x1
+        from models.resnet18_reparam_1x1_1x3 import resnet18 as resnet18_reparam_1x1_1x3
+        from models.resnet18_reparam_1x1_3x3 import resnet18 as resnet18_reparam_1x1_3x3
+        from models.resnet18_reparam_3x3_1x1 import resnet18 as resnet18_reparam_3x3_1x1
+        from models.resnet18_reparam_3x3_1x3 import resnet18 as resnet18_reparam_3x3_1x3
+        from models.resnet18_reparam_3x3_3x3 import resnet18 as resnet18_reparam_3x3_3x3
 
         from models.resenet_cifar import resnet18 as resnet18_cifar
         from models.resnet_original import resnet18
 
         self.base_model = {
             "resnet18": resnet18,
+            "resnet18_reparam_1x1_1x1": resnet18_reparam_1x1_1x1,
+            "resnet18_reparam_1x1_1x3": resnet18_reparam_1x1_1x3,
+            "resnet18_reparam_1x1_3x3": resnet18_reparam_1x1_3x3,
+            "resnet18_reparam_3x3_1x1": resnet18_reparam_3x3_1x1,
+            "resnet18_reparam_3x3_1x3": resnet18_reparam_3x3_1x3,
+            "resnet18_reparam_3x3_3x3": resnet18_reparam_3x3_3x3,
             "resnet18_cifar": resnet18_cifar,
             "resnet18_cifar_reparam": resnet18_cifar_reparam,
             "resnet18_cifar_reparam_3x3": resnet18_cifar_reparam_3x3,
@@ -205,7 +217,8 @@ class BaseModel(pl.LightningModule):
                               "resnet18_cifar", "resnet50_cifar",
                               "resnet18_cifar_reparam","resnet18_cifar_reparam_1x3","resnet18_cifar_reparam_3x3", "resnet50_cifar_reparam"]
 
-        parser.add_argument("--encoder", choices=SUPPORTED_NETWORKS, type=str)
+        # parser.add_argument("--encoder", choices=SUPPORTED_NETWORKS, type=str)
+        parser.add_argument("--encoder", type=str)
         parser.add_argument("--zero_init_residual", action="store_true")
 
         # general train

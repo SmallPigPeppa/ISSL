@@ -1,6 +1,6 @@
 python3 main_continual_reparam.py \
     --dataset imagenet100 \
-    --encoder resnet18_reparam \
+    --encoder resnet18_reparam_1x1_1x3 \
     --data_dir $DATA_DIR \
     --train_dir imagenet-100/train \
     --val_dir imagenet-100/val \
@@ -28,7 +28,7 @@ python3 main_continual_reparam.py \
     --hue 0.2 \
     --dali \
     --check_val_every_n_epoch 9999 \
-    --name reparam-1x1 \
+    --name reparam-1x1-1x3 \
     --project ISSL-simclr-imagenet \
     --entity pigpeppa \
     --wandb \
