@@ -2,8 +2,8 @@ python3 main_continual_reparam.py \
     --dataset imagenet100 \
     --encoder resnet18_reparam_3x3_3x3 \
     --data_dir $DATA_DIR \
-    --train_dir imagenet-100/train \
-    --val_dir imagenet-100/val \
+    --train_dir imagenet100/train \
+    --val_dir imagenet100/val \
     --split_strategy class \
     --max_epochs 500 \
     --num_tasks 5 \
