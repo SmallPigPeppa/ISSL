@@ -5,7 +5,7 @@ python3 main_continual_reparam.py \
     --train_dir imagenet-100/train \
     --val_dir imagenet-100/val \
     --split_strategy class \
-    --max_epochs 500 \
+    --max_epochs 1 \
     --num_tasks 5 \
     --task_idx 0 \
     --gpus 0,1 \
