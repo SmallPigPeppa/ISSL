@@ -1,6 +1,6 @@
 python3 main_linear_reparam_all.py \
     --dataset imagenet100 \
-    --encoder resnet18_reparam_1x1_1x1 \
+    --encoder resnet18_reparam_1x1_1x3 \
     --data_dir $DATA_DIR \
     --train_dir imagenet100/train \
     --val_dir imagenet100/val \
@@ -17,8 +17,8 @@ python3 main_linear_reparam_all.py \
     --batch_size 256 \
     --num_workers 7 \
     --dali \
-    --name reparam-1x1-1x1 \
+    --name reparam-1x1-1x3-fixbn \
     --project ISSL-simclr-imagenet-eval \
     --entity pigpeppa \
     --wandb \
-    --linear_eval_dir experiments/2023_04_16_15_30_11-reparam-1x1-1x1
+    --linear_eval_dir experiments/2023_04_16_14_57_57-reparam-1x1-1x3-fixbn
