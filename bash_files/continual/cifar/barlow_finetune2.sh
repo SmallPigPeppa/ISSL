@@ -1,11 +1,11 @@
-python3 main_continual.py \
+python3 main_continual_reparam_finetune.py \
     --dataset cifar100 \
-    --encoder resnet18 \
+    --encoder resnet18_cifar_reparam \
     --data_dir $DATA_DIR \
     --split_strategy class \
+    --task_idx 0 \
     --max_epochs 500 \
     --num_tasks 5 \
-    --task_idx 0 \
     --gpus 0 \
     --num_workers 4 \
     --precision 16 \
@@ -25,7 +25,7 @@ python3 main_continual.py \
     --hue 0.1 \
     --gaussian_prob 0.0 0.0 \
     --solarization_prob 0.0 0.2 \
-    --name fine-tune \
+    --name finetune \
     --project ISSL-barlow \
     --entity pigpeppa \
     --wandb \
