@@ -69,7 +69,7 @@ def main():
         raise ValueError("Only [resnet18, resnet50] are currently supported.")
 
 
-
+    import pdb;pdb.set_trace()
     ckpt_dir = args.linear_eval_dir
     ckpt_files = get_ckpt_files(ckpt_dir)
 
