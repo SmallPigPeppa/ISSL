@@ -25,7 +25,7 @@ python3 main_continual_reparam_finetune.py \
     --hue 0.1 \
     --gaussian_prob 0.0 0.0 \
     --solarization_prob 0.0 0.2 \
-    --name fine-tune \
+    --name finetune \
     --project ISSL-byol \
     --entity pigpeppa \
     --wandb \
