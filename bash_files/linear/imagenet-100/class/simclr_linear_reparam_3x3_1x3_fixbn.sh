@@ -1,4 +1,4 @@
-python3 main_linear_reparam.py \
+python3 main_linear_reparam_all.py \
     --dataset imagenet100 \
     --encoder resnet18_reparam_3x3_1x3 \
     --data_dir $DATA_DIR \
