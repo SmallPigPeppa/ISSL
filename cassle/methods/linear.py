@@ -108,9 +108,10 @@ class LinearModel(pl.LightningModule):
         parser = parent_parser.add_argument_group("linear")
 
         # encoder args
-        SUPPORTED_NETWORKS = ["resnet18", "resnet50"]
-
-        parser.add_argument("--encoder", choices=SUPPORTED_NETWORKS, type=str)
+        # SUPPORTED_NETWORKS = ["resnet18", "resnet50"]
+        #
+        # parser.add_argument("--encoder", choices=SUPPORTED_NETWORKS, type=str)
+        parser.add_argument("--encoder", type=str)
         parser.add_argument("--zero_init_residual", action="store_true")
 
         # general train
