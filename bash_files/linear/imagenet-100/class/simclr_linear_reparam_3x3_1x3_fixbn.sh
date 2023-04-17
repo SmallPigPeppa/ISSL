@@ -21,4 +21,4 @@ python3 main_linear_reparam_all.py \
     --project ISSL-simclr-imagenet-eval \
     --entity pigpeppa \
     --wandb \
-    --linear_eval_dir 2023_04_16_14_59_26-reparam-3x3-1x3-fixbn
+    --linear_eval_dir experiments/2023_04_16_14_59_26-reparam-3x3-1x3-fixbn
