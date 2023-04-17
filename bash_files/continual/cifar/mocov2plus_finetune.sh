@@ -1,6 +1,6 @@
-python3 main_continual_finetune.py \
+python3 main_continual_reparam_finetune.py \
     --dataset cifar100 \
-    --encoder resnet18 \
+    --encoder resnet18_cifar_reparam \
     --data_dir $DATA_DIR \
     --split_strategy class \
     --task_idx 0 \
