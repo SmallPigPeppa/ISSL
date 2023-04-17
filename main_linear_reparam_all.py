@@ -25,8 +25,12 @@ import glob
 import re
 
 def get_ckpt_files(ckpt_dir):
-    return list(Path(ckpt_dir).rglob("*.ckpt"))
-
+    ckpt_files = []
+    for root, _, files in os.walk(ckpt_dir):
+        for file in files:
+            if file.endswith(".ckpt"):
+                ckpt_files.append(os.path.join(root, file))
+    return ckpt_files
 
 
 def main():
