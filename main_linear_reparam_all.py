@@ -79,7 +79,7 @@ def main():
 
     for ckpt_path in ckpt_files:
         task_number = re.search(r"task(\d+)", ckpt_path).group(1)
-        task_name = f"{args.name}-task{task_number}"
+        task_name = f"{args.name}-T{task_number}"
         args.name = task_name
         state = torch.load(ckpt_path)["state_dict"]
         for k in list(state.keys()):
