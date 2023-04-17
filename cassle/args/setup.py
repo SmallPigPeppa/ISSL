@@ -104,6 +104,7 @@ def parse_args_linear() -> argparse.Namespace:
     SPLIT_STRATEGIES = ["class", "data", "domain","upbound"]
     parser.add_argument("--split_strategy", choices=SPLIT_STRATEGIES, type=str, required=True)
     parser.add_argument("--domain", type=str, default=None)
+    parser.add_argument("--linear_eval_dir", type=str)
 
     # add checkpointer args (only if logging is enabled)
     if temp_args.wandb:
