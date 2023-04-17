@@ -12,28 +12,25 @@ python3 main_continual_finetune.py \
     --lars \
     --grad_clip_lars \
     --eta_lars 0.02 \
-    --exclude_bias_n_norm \
     --scheduler warmup_cosine \
-    --lr 1.0 \
-    --classifier_lr 0.1 \
-    --weight_decay 1e-5 \
+    --lr 0.3 \
+    --classifier_lr 0.3 \
+    --weight_decay 1e-4 \
     --batch_size 256 \
-    --num_workers 5 \
+    --num_workers 4 \
     --brightness 0.4 \
     --contrast 0.4 \
-    --saturation 0.2 \
+    --saturation 0.4 \
     --hue 0.1 \
     --gaussian_prob 0.0 0.0 \
-    --solarization_prob 0.0 0.2 \
     --name finetune \
-    --project ISSL-byol \
+    --project ISSL-mocov2plus \
     --entity pigpeppa \
     --wandb \
     --save_checkpoint \
-    --method byol \
-    --output_dim 256 \
-    --proj_hidden_dim 4096 \
-    --pred_hidden_dim 4096 \
+    --method mocov2plus \
+    --proj_hidden_dim 2048 \
+    --queue_size 65536 \
+    --temperature 0.2 \
     --base_tau_momentum 0.99 \
-    --final_tau_momentum 1.0 \
-    --momentum_classifier
+    --final_tau_momentum 0.999
